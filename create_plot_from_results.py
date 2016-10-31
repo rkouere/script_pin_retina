@@ -271,17 +271,17 @@ class Plotting:
         # we reduce the data to a 3 col dictionary
         for row in plots:
             if row[self.col_id] in self.reduced_dic_to_n_rows:
-                self.reduced_dic_to_n_rows[row[self.col_id]].append([row[self.col_OK], row[self.col_time]])
+                self.reduced_dic_to_n_rows[row[self.col_id]][5].append(row[self.col_OK])
+                self.reduced_dic_to_n_rows[row[self.col_id]][6].append(row[self.col_time])
             else:
                 self.reduced_dic_to_n_rows[row[self.col_id]] = [
-                        row[col_synchrone], 
+                        row[col_synchrone],
                         row[col_angle],
                         row[col_shaking],
                         row[col_shaking_type],
                         row[col_level],
-                        [
-                            row[self.col_OK], 
-                            row[self.col_time]]]
+                        [row[self.col_OK]],
+                        [row[self.col_time]]]
         print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
