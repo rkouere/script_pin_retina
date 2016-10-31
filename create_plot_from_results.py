@@ -147,7 +147,7 @@ class Person:
 
 class Plotting:
     def __init__(self):
-        self.reduced_dic_to_two_rows = {}
+        self.reduced_dic_to_n_rows = {}
         self.dic_two_rows_averaged = {}
         self.col_id = 7
         self.col_time = 6
@@ -169,7 +169,7 @@ class Plotting:
 
     def _generate_averaged_value_from_two_row_dic(self):
         tmp_avg = 0
-        for key, values in self.reduced_dic_to_two_rows.items():
+        for key, values in self.reduced_dic_to_n_rows.items():
             tmp_avg = 0
             for value in values:
                 tmp_avg += int(value)
@@ -184,10 +184,10 @@ class Plotting:
         value_id : the index of the data to be used as value
         """
         for row in plots:
-            if row[key_id] in self.reduced_dic_to_two_rows:
-                self.reduced_dic_to_two_rows[row[key_id]].append(row[value_id])
+            if row[key_id] in self.reduced_dic_to_n_rows:
+                self.reduced_dic_to_n_rows[row[key_id]].append(row[value_id])
             else:
-                self.reduced_dic_to_two_rows[row[key_id]] = [row[value_id]]
+                self.reduced_dic_to_n_rows[row[key_id]] = [row[value_id]]
 
     def get_number_of_OK_per_id(self, plots):
         """
@@ -203,7 +203,7 @@ class Plotting:
         Returns the average number of OK.
         """
         tmp_avg = 0
-        for key, values in self.reduced_dic_to_two_rows.items():
+        for key, values in self.reduced_dic_to_n_rows.items():
             tmp_avg = 0
             for value in values:
                 if value == "OK":
@@ -238,7 +238,7 @@ class Plotting:
                 ids_of_experiences_to_keep.append(id_of_exp)
 
         # we reset the variables
-        self.reduced_dic_to_two_rows = {}
+        self.reduced_dic_to_n_rows = {}
         self.dic_two_rows_averaged = {}
         # we get the average time it took to complete each id
         self.get_values_time(plots)
@@ -270,10 +270,10 @@ class Plotting:
         col_level = 0
         # we reduce the data to a 3 col dictionary
         for row in plots:
-            if row[self.col_id] in self.reduced_dic_to_two_rows:
-                self.reduced_dic_to_two_rows[row[self.col_id]].append([row[self.col_OK], row[self.col_time]])
+            if row[self.col_id] in self.reduced_dic_to_n_rows:
+                self.reduced_dic_to_n_rows[row[self.col_id]].append([row[self.col_OK], row[self.col_time]])
             else:
-                self.reduced_dic_to_two_rows[row[self.col_id]] = [
+                self.reduced_dic_to_n_rows[row[self.col_id]] = [
                         row[col_synchrone], 
                         row[col_angle],
                         row[col_shaking],
@@ -282,7 +282,7 @@ class Plotting:
                         [
                             row[self.col_OK], 
                             row[self.col_time]]]
-        print(json.dumps(self.reduced_dic_to_two_rows, indent=1))
+        print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
