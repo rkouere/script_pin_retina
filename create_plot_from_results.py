@@ -263,10 +263,26 @@ class Plotting:
         Prints a table of the n experiences with a 100% success rate, with
         the settings associated with the experiences.
         """
-        #print(json.dumps(plots, indent=1))
-        for experience in plots:
-            print(experience)
-        #print(ids)
+        col_synchrone = 0
+        col_angle = 0
+        col_shaking = 0
+        col_shaking_type = 0
+        col_level = 0
+        # we reduce the data to a 3 col dictionary
+        for row in plots:
+            if row[self.col_id] in self.reduced_dic_to_two_rows:
+                self.reduced_dic_to_two_rows[row[self.col_id]].append([row[self.col_OK], row[self.col_time]])
+            else:
+                self.reduced_dic_to_two_rows[row[self.col_id]] = [
+                        row[col_synchrone], 
+                        row[col_angle],
+                        row[col_shaking],
+                        row[col_shaking_type],
+                        row[col_level],
+                        [
+                            row[self.col_OK], 
+                            row[self.col_time]]]
+        print(json.dumps(self.reduced_dic_to_two_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
