@@ -292,7 +292,11 @@ class Plotting:
                 if value == "OK":
                     tmp_avg += 1
             self.reduced_dic_to_n_rows[key][5] = tmp_avg
-            print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
+            tmp_avg = 0
+            for value in values[6]:
+                tmp_avg += int(value)
+            self.reduced_dic_to_n_rows[key][6] = tmp_avg / self.reduced_dic_to_n_rows[key][5]
+        print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
