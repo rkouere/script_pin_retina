@@ -255,6 +255,7 @@ class Plotting:
         self.name_of_graph += "+ a completion time below {}ms".format(max_time)
         self.dic_two_rows_averaged = copy.deepcopy(tmp)
         print("Number of experiences in the result = " + str(len(self.dic_two_rows_averaged)))
+        print(tmp)
         #self.print_plot_values_from_id(plots, ids_of_experiences_to_keep)
     
     def print_n_exp_with_full_success( 
@@ -309,7 +310,7 @@ class Plotting:
         print("number of results {}".format(len(final_results_to_print)))
         #we print the data to be included in a LateX table
         for key, values in final_results_to_print.items():
-            print("{} & {} & {}, {}, {} & {}\\\\".format(
+            print("{},{},{} - {} - {},{}".format(
             key, values[2], values[0], values[1], values[3], int(values[5])))
         #print(ids_of_experiences_to_keep)
         #print(json.dumps(final_results_to_print, indent=1))
