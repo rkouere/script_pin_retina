@@ -301,8 +301,14 @@ class Plotting:
         for key, values in self.reduced_dic_to_n_rows.items():
             if ((values[5] * 100) / number_of_guinea_pigs) >= per_good_aswrs:
                 ids_of_experiences_to_keep.append(key)
+        final_results_to_print = {}
+        # we will now go through the experiences and only keep those with
+        # a high enough number of correct answers
+        for key, values in self.reduced_dic_to_n_rows.items():
+            if "{}".format(key) in ids_of_experiences_to_keep:
+                final_results_to_print[key] = values
         print(ids_of_experiences_to_keep)
-        print(len(ids_of_experiences_to_keep))
+        print(json.dumps(final_results_to_print, indent=1))
         #print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
