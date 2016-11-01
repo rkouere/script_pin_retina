@@ -255,10 +255,10 @@ class Plotting:
         self.name_of_graph += "+ a completion time below {}ms".format(max_time)
         self.dic_two_rows_averaged = copy.deepcopy(tmp)
         print("Number of experiences in the result = " + str(len(self.dic_two_rows_averaged)))
-        self.print_n_exp_with_full_success(plots, ids_of_experiences_to_keep)
         #self.print_plot_values_from_id(plots, ids_of_experiences_to_keep)
     
-    def print_n_exp_with_full_success(self, plots):
+    def print_n_exp_with_full_success( 
+            self, plots, per_good_aswrs, number_of_guinea_pigs):
         """
         Prints a table of the n experiences with a 100% success rate, with
         the settings associated with the experiences.
@@ -296,7 +296,14 @@ class Plotting:
             for value in values[6]:
                 tmp_avg += int(value)
             self.reduced_dic_to_n_rows[key][6] = tmp_avg / self.reduced_dic_to_n_rows[key][5]
-        print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
+        ids_of_experiences_to_keep = []
+        # go over the experiences and get the ids of the answers > percentage
+        for key, values in self.reduced_dic_to_n_rows.items():
+            if ((values[5] * 100) / number_of_guinea_pigs) >= per_good_aswrs:
+                ids_of_experiences_to_keep.append(key)
+        print(ids_of_experiences_to_keep)
+        print(len(ids_of_experiences_to_keep))
+        #print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
@@ -382,7 +389,6 @@ def main():
     plot = experience.generate_array_of_data()
     print(len(plot))
 #    plots = get_values_as_json(csv_file)
-
     if arguments.mode == 'time':
         plotting.get_values_time(plot)
     elif arguments.mode == 'success':
@@ -390,7 +396,11 @@ def main():
     elif arguments.mode == 'hall_of_fame':
         plotting.get_hall_of_fame(plot)
     elif arguments.table_OK_index_sorted:
-        plotting.print_n_exp_with_full_success(plot)
+        print(arguments.table_OK_index_sorted)
+        plotting.print_n_exp_with_full_success(
+            plot, int(arguments.table_OK_index_sorted[0]),
+            experience.get_number_of_persons())
+
         return
     elif arguments.avg_OK_percentage:
         plotting.get_time_from_minimum_number_of_good_answers(
