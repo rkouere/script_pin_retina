@@ -307,9 +307,11 @@ class Plotting:
         for key, values in self.reduced_dic_to_n_rows.items():
             if "{}".format(key) in ids_of_experiences_to_keep:
                 final_results_to_print[key] = values
-        print(ids_of_experiences_to_keep)
-        print(json.dumps(final_results_to_print, indent=1))
-        #print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
+        #we print the data to be included in a LateX table
+        for key, values in final_results_to_print.items():
+            print(values)
+        #print(ids_of_experiences_to_keep)
+        #print(json.dumps(final_results_to_print, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
