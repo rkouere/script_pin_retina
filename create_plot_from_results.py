@@ -282,7 +282,20 @@ class Plotting:
                         row[col_level],
                         [row[self.col_OK]],
                         [row[self.col_time]]]
-        print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
+        # we change the number of OK in the dic to a number
+        tmp_avg = 0
+        for key, values in self.reduced_dic_to_n_rows.items():
+            tmp_avg = 0
+            for value in values[5]:
+                if value == "OK":
+                    tmp_avg += 1
+            self.reduced_dic_to_n_rows[key][5] = tmp_avg
+            #    tmp_avg = 0
+            #    for value in values:
+            #        if value == "OK":
+            #            tmp_avg += 1
+            #    self.dic_two_rows_averaged[key] = tmp_avg
+            print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
         """
