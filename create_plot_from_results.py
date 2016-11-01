@@ -270,18 +270,20 @@ class Plotting:
         col_level = 0
         # we reduce the data to a 3 col dictionary
         for row in plots:
-            if row[self.col_id] in self.reduced_dic_to_n_rows:
-                self.reduced_dic_to_n_rows[row[self.col_id]][5].append(row[self.col_OK])
-                self.reduced_dic_to_n_rows[row[self.col_id]][6].append(row[self.col_time])
-            else:
-                self.reduced_dic_to_n_rows[row[self.col_id]] = [
-                        row[col_synchrone],
-                        row[col_angle],
-                        row[col_shaking],
-                        row[col_shaking_type],
-                        row[col_level],
-                        [row[self.col_OK]],
-                        [row[self.col_time]]]
+            # we only want to use the correct answers
+            if row[self.col_OK] == "OK":
+                if row[self.col_id] in self.reduced_dic_to_n_rows:
+                    self.reduced_dic_to_n_rows[row[self.col_id]][5].append(row[self.col_OK])
+                    self.reduced_dic_to_n_rows[row[self.col_id]][6].append(row[self.col_time])
+                else:
+                    self.reduced_dic_to_n_rows[row[self.col_id]] = [
+                            row[col_synchrone],
+                            row[col_angle],
+                            row[col_shaking],
+                            row[col_shaking_type],
+                            row[col_level],
+                            [row[self.col_OK]],
+                            [row[self.col_time]]]
         # we change the number of OK in the dic to a number
         tmp_avg = 0
         for key, values in self.reduced_dic_to_n_rows.items():
@@ -290,11 +292,6 @@ class Plotting:
                 if value == "OK":
                     tmp_avg += 1
             self.reduced_dic_to_n_rows[key][5] = tmp_avg
-            #    tmp_avg = 0
-            #    for value in values:
-            #        if value == "OK":
-            #            tmp_avg += 1
-            #    self.dic_two_rows_averaged[key] = tmp_avg
             print(json.dumps(self.reduced_dic_to_n_rows, indent=1))
 
     def print_plot_values_from_id(self, plots, ids):
