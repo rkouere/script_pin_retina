@@ -305,10 +305,12 @@ class Plotting:
         for key, values in self.reduced_dic_to_n_rows.items():
             if "{}".format(key) in ids_of_experiences_to_keep:
                 final_results_to_print[key] = values
+        #we print the number of answers returned by the script
+        print("number of results {}".format(len(final_results_to_print)))
         #we print the data to be included in a LateX table
         for key, values in final_results_to_print.items():
-            print("{} & {} & {}, {}, {} & {} & {}\\\\".format(
-            key, values[2], values[0], values[1], values[3], values[4], values[5]))
+            print("{} & {} & {}, {}, {} & {}\\\\".format(
+            key, values[2], values[0], values[1], values[3], int(values[5])))
         #print(ids_of_experiences_to_keep)
         #print(json.dumps(final_results_to_print, indent=1))
 
@@ -394,7 +396,6 @@ def main():
         experience.normalise_all_times()
 
     plot = experience.generate_array_of_data()
-    print(len(plot))
 #    plots = get_values_as_json(csv_file)
     if arguments.mode == 'time':
         plotting.get_values_time(plot)
@@ -403,11 +404,9 @@ def main():
     elif arguments.mode == 'hall_of_fame':
         plotting.get_hall_of_fame(plot)
     elif arguments.table_OK_index_sorted:
-        print(arguments.table_OK_index_sorted)
         plotting.print_n_exp_with_full_success(
             plot, int(arguments.table_OK_index_sorted[0]),
             experience.get_number_of_persons())
-
         return
     elif arguments.avg_OK_percentage:
         plotting.get_time_from_minimum_number_of_good_answers(
