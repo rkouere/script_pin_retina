@@ -265,7 +265,6 @@ class Plotting:
         """
         col_synchrone = 0
         col_angle = 0
-        col_shaking = 0
         col_shaking_type = 0
         col_level = 0
         # we reduce the data to a 3 col dictionary
@@ -273,13 +272,12 @@ class Plotting:
             # we only want to use the correct answers
             if row[self.col_OK] == "OK":
                 if row[self.col_id] in self.reduced_dic_to_n_rows:
-                    self.reduced_dic_to_n_rows[row[self.col_id]][5].append(row[self.col_OK])
-                    self.reduced_dic_to_n_rows[row[self.col_id]][6].append(row[self.col_time])
+                    self.reduced_dic_to_n_rows[row[self.col_id]][4].append(row[self.col_OK])
+                    self.reduced_dic_to_n_rows[row[self.col_id]][5].append(row[self.col_time])
                 else:
                     self.reduced_dic_to_n_rows[row[self.col_id]] = [
                             row[col_synchrone],
                             row[col_angle],
-                            row[col_shaking],
                             row[col_shaking_type],
                             row[col_level],
                             [row[self.col_OK]],
@@ -288,18 +286,18 @@ class Plotting:
         tmp_avg = 0
         for key, values in self.reduced_dic_to_n_rows.items():
             tmp_avg = 0
-            for value in values[5]:
+            for value in values[4]:
                 if value == "OK":
                     tmp_avg += 1
-            self.reduced_dic_to_n_rows[key][5] = tmp_avg
+            self.reduced_dic_to_n_rows[key][4] = tmp_avg
             tmp_avg = 0
-            for value in values[6]:
+            for value in values[5]:
                 tmp_avg += int(value)
-            self.reduced_dic_to_n_rows[key][6] = tmp_avg / self.reduced_dic_to_n_rows[key][5]
+            self.reduced_dic_to_n_rows[key][5] = tmp_avg / self.reduced_dic_to_n_rows[key][4]
         ids_of_experiences_to_keep = []
         # go over the experiences and get the ids of the answers > percentage
         for key, values in self.reduced_dic_to_n_rows.items():
-            if ((values[5] * 100) / number_of_guinea_pigs) >= per_good_aswrs:
+            if ((values[4] * 100) / number_of_guinea_pigs) >= per_good_aswrs:
                 ids_of_experiences_to_keep.append(key)
         final_results_to_print = {}
         # we will now go through the experiences and only keep those with
@@ -309,7 +307,8 @@ class Plotting:
                 final_results_to_print[key] = values
         #we print the data to be included in a LateX table
         for key, values in final_results_to_print.items():
-            print(values)
+            print("{} & {} & {}, {}, {} & {} & {}\\\\".format(
+            key, values[2], values[0], values[1], values[3], values[4], values[5]))
         #print(ids_of_experiences_to_keep)
         #print(json.dumps(final_results_to_print, indent=1))
 
