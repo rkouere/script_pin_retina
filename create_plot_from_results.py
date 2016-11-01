@@ -263,10 +263,10 @@ class Plotting:
         Prints a table of the n experiences with a 100% success rate, with
         the settings associated with the experiences.
         """
-        col_synchrone = 0
-        col_angle = 0
-        col_shaking_type = 0
-        col_level = 0
+        col_synchrone = 13
+        col_angle = 14
+        col_shaking_type = 15
+        col_level = 16
         # we reduce the data to a 3 col dictionary
         for row in plots:
             # we only want to use the correct answers
